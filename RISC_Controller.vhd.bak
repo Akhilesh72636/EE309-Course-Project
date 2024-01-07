@@ -1,0 +1,15 @@
+library ieee;
+library std;
+use ieee.std_logic_1164.all;
+
+entity reg is
+
+port 
+( regin :in  std_logic_vector(15 downto 0) ;  -- input of register
+  WR_E: in std_logic;                          -- enable input
+  reset: in std_logic;                         -- reset input
+  clk: in std_logic;                              
+  regout: out std_logic_vector(15 downto 0));  -- output of register
+ 
+ 
+end reg;

@@ -1,0 +1,62 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity IFIDReg is
+	port (
+	     clk: in std_logic;
+
+		   
+		  I_RR_EX: IN STD_LOGIC_VECTOR(15 downto 0); 
+		  I_EX_MM : IN STD_LOGIC_VECTOR(15 downto 0); 
+		  I_MM_WB : IN STD_LOGIC_VECTOR(15 downto 0);
+		  WR_E: in std_logic;                         
+        reset: in std_logic;
+		  RAselect: out STD_LOGIC_VECTOR(2 downto 0);
+		  RBselect: out STD_LOGIC_VECTOR(2 downto 0);
+			---------------------------------------------------
+		 );
+		   
+end entity;
+
+
+architecture behave of IFIDReg is
+  begin 
+  
+  
+  process(I_RR_EX,I_EX_MM ,I_MM_WB,clk,reset,WR_E) is
+	  variable T1, compvalue,One: STD_LOGIC_VECTOR(15 downto 0);
+      begin
+		if (clk'event and clk = '1') then
+	     RAselect="00";
+		  
+		 if (I_RR_EX(15 DOWNTO 12)="0001" OR I_RR_EX(15 DOWNTO 12)="0000" OR I_RR_EX(15 DOWNTO 12)="0010" OR 
+		    I_RR_EX(15 DOWNTO 12)="0011" OR I_RR_EX(15 DOWNTO 12)="0101" OR I_RR_EX(15 DOWNTO 12)="1101" OR
+			 I_RR_EX(15 DOWNTO 12)="1100" ) THEN
+			 
+			            IF (I_RR_EX(8 DOWNTO 6) =  I_EX_MM(11 DOWNTO 9)) THEN 
+							     RAselect="01";
+						   end if;
+							 IF (I_RR_EX(8 DOWNTO 6) = I_MM_WB(11 DOWNTO 9)) THEN 
+							     RAselect="10";
+						   end if;
+								
+		    
+			 
+			 if (I_RR_EX(15 DOWNTO 12)="0001" OR I_RR_EX(15 DOWNTO 12)="0000" OR I_RR_EX(15 DOWNTO 12)="0010" OR 
+		    I_RR_EX(15 DOWNTO 12)="0011" OR I_RR_EX(15 DOWNTO 12)="0101" OR I_RR_EX(15 DOWNTO 12)="1101" OR
+			 I_RR_EX(15 DOWNTO 12)="1100" ) THEN
+			 
+			            IF (I_RR_EX(8 DOWNTO 6) =  I_EX_MM(11 DOWNTO 9)) THEN 
+							     RBselect="01";
+						   end if;
+							 IF (I_RR_EX(8 DOWNTO 6) = I_MM_WB(11 DOWNTO 9)) THEN 
+							     RBselect="10";
+						   end if;             
+			 
+			 
+			 
+		 END IF; 
+			 end if;
+		end process;
+end behave;
